@@ -1,6 +1,4 @@
 import json
-import logging
-
 import pytest
 
 from shared.config import (
@@ -83,3 +81,20 @@ def test_pydantic_schema_validation_boundaries() -> None:
         key_risks=["macro uncertainty"],
     )
     assert json.loads(rec.model_dump_json())["recommendation"] == "Hold"
+
+
+def test_sanitize_redacts_provider_specific_and_nested_values() -> None:
+    payload = {
+        "groq_api_key": "gsk_live_123",
+        "headers": {"authorization": "Bearer top-secret"},
+        "providers": [
+            {"openrouter_api_key": "or_live_456"},
+            {"name": "public", "value": "ok"},
+        ],
+    }
+
+    out = _sanitize(payload)
+    assert out["groq_api_key"] == "***REDACTED***"
+    assert out["headers"]["authorization"] == "***REDACTED***"
+    assert out["providers"][0]["openrouter_api_key"] == "***REDACTED***"
+    assert out["providers"][1]["value"] == "ok"
