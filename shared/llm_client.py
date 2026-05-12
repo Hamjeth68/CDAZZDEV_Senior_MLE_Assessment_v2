@@ -198,11 +198,8 @@ class OpenRouterProvider(BaseProvider):
 
             data = response.json()
 
-            # Extract response content
-            if "choices" not in data or len(data["choices"]) == 0:
-                raise LLMProviderError("Invalid response structure from OpenRouter")
-
-            content = data["choices"][0]["message"]["content"]
+            # Extract response content safely
+            content = self._extract_content_from_response(data)
 
             # Extract token usage if available
             usage = data.get("usage", {})
@@ -235,6 +232,30 @@ class OpenRouterProvider(BaseProvider):
         except requests.exceptions.RequestException as e:
             logger.error("OpenRouter request failed", extra={"error": str(e)})
             raise LLMProviderError(f"OpenRouter request failed: {str(e)}")
+
+    @staticmethod
+    def _extract_content_from_response(data: dict[str, Any]) -> str:
+        """Extract text content from an OpenRouter completion response."""
+        if not isinstance(data, dict):
+            raise LLMProviderError("OpenRouter returned an invalid response payload")
+
+        choices = data.get("choices")
+        if not isinstance(choices, list) or len(choices) == 0:
+            raise LLMProviderError("Invalid response structure from OpenRouter: missing choices")
+
+        first_choice = choices[0]
+        if not isinstance(first_choice, dict):
+            raise LLMProviderError("Invalid response structure from OpenRouter: choice entry malformed")
+
+        message = first_choice.get("message")
+        if not isinstance(message, dict):
+            raise LLMProviderError("Invalid response structure from OpenRouter: missing message")
+
+        content = message.get("content")
+        if not isinstance(content, str):
+            raise LLMProviderError("Invalid response structure from OpenRouter: missing content")
+
+        return content
 
     def generate_json(
         self,
@@ -591,10 +612,11 @@ class LLMClient:
                     max_tokens=max_tokens,
                 )
                 return parsed_json, response
-            except LLMValidationError:
-                # JSON validation errors from primary provider are not retried on fallback
-                logger.error("Primary provider JSON validation failed")
-                raise
+            except LLMValidationError as validation_error:
+                logger.warning(
+                    "Primary provider returned invalid JSON; attempting fallback",
+                    extra={"error": str(validation_error)},
+                )
             except (
                 ProviderAuthenticationError,
                 ProviderRateLimitError,
