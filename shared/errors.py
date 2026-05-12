@@ -19,3 +19,20 @@ class LLMServiceError(AssessmentError):
 
 class ToolExecutionError(AssessmentError):
     """Raised when an agent/tool action fails unexpectedly."""
+
+
+# LLM Provider-specific exceptions
+class LLMProviderError(AssessmentError):
+    """Base exception for LLM provider errors."""
+
+
+class LLMValidationError(LLMProviderError):
+    """Raised when LLM output validation fails (e.g., invalid JSON)."""
+
+
+class ProviderAuthenticationError(LLMProviderError):
+    """Raised when provider authentication fails (missing/invalid API key)."""
+
+
+class ProviderRateLimitError(LLMProviderError):
+    """Raised when provider rate limit is exceeded."""
