@@ -1,0 +1,37 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Outputs and local runtime files
+task1_financial/outputs/*
+!task1_financial/outputs/.gitkeep
+task3_agentic/outputs/*
+!task3_agentic/outputs/.gitkeep
+task3_agentic/cache/*
+!task3_agentic/cache/.gitkeep
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
