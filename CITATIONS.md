@@ -19,6 +19,12 @@
 ## Libraries and Documentation Referenced
 - Pydantic: https://docs.pydantic.dev/
 - python-dotenv: https://pypi.org/project/python-dotenv/
+<<<<<<< ours
+- OpenRouter API: https://openrouter.ai/docs
+- Groq SDK: https://github.com/groq/groq-python
+- Requests: https://docs.python-requests.org/
+=======
+>>>>>>> theirs
 
 ## Open-Source Code
 No source code was copied directly. Implementations were written for this assessment using public API/docs references.
