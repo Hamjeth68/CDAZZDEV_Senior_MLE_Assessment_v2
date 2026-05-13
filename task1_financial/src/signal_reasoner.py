@@ -56,7 +56,7 @@ def generate_recommendation(
             "recommendation_failed",
             {"ticker": summary_model.ticker, "error_type": type(exc).__name__, "error": str(exc)},
         )
-        return fallback_recommendation(summary_model, sentiment)
+        raise
 
 
 def fallback_recommendation(
