@@ -9,6 +9,10 @@ class DataFetchError(AssessmentError):
     """Raised when external or internal data retrieval fails."""
 
 
+class DataValidationError(AssessmentError):
+    """Raised when raw data is missing, malformed, or semantically invalid."""
+
+
 class SchemaValidationError(AssessmentError):
     """Raised when structured payload validation fails."""
 
@@ -21,17 +25,7 @@ class ToolExecutionError(AssessmentError):
     """Raised when an agent/tool action fails unexpectedly."""
 
 
-class LLMProviderError(AssessmentError):
-    """Base exception for LLM provider errors."""
-
-
-class LLMValidationError(LLMProviderError):
-    """Raised when LLM output validation fails (e.g., invalid JSON)."""
-
-
-class ProviderAuthenticationError(LLMProviderError):
-    """Raised when provider authentication fails (missing/invalid API key)."""
-
-
-class ProviderRateLimitError(LLMProviderError):
-    """Raised when provider rate limit is exceeded."""
+# Compatibility aliases with concise names used in notebooks and agents.
+ValidationError = DataValidationError
+LLMError = LLMServiceError
+ToolError = ToolExecutionError
