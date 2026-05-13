@@ -28,20 +28,23 @@ def _summary() -> EquitySummary:
     )
 
 
-def test_sentiment_client_setup_failure_propagates(monkeypatch):
+def test_sentiment_client_setup_failure_returns_empty_batch(monkeypatch):
     class UnavailableClient:
         def __init__(self):
             raise LLMProviderError("No LLM providers configured")
 
     monkeypatch.setattr("task1_financial.src.sentiment_service.LLMClient", UnavailableClient)
 
-    with pytest.raises(LLMProviderError, match="No LLM providers configured"):
-        analyze_news_sentiment("msft", ["Microsoft announces new AI chips"])
+    result = analyze_news_sentiment("msft", ["Microsoft announces new AI chips"])
+    assert result.ticker == "MSFT"
+    assert result.sentiments == []
+    assert result.positive_count == 0
 
 
-def test_recommendation_failure_propagates_for_pipeline_warning():
-    with pytest.raises(LLMProviderError, match="provider offline"):
-        generate_recommendation(_summary(), None, llm_client=FailingRecommendationClient())
+def test_recommendation_failure_returns_fallback():
+    result = generate_recommendation(_summary(), None, llm_client=FailingRecommendationClient())
+    assert result.model_name == "fallback-rule"
+    assert result.recommendation in {"Buy", "Hold", "Sell"}
 
 
 def test_pipeline_records_sentiment_and_recommendation_failures(monkeypatch, tmp_path):

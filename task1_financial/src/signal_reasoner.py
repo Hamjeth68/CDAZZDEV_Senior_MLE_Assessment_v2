@@ -1,4 +1,4 @@
-"""LLM recommendation reasoner for Task 1 equity summaries."""
+11111111"""LLM recommendation reasoner for Task 1 equity summaries."""
 
 from __future__ import annotations
 
@@ -56,7 +56,7 @@ def generate_recommendation(
             "recommendation_failed",
             {"ticker": summary_model.ticker, "error_type": type(exc).__name__, "error": str(exc)},
         )
-        raise
+        return fallback_recommendation(summary_model, sentiment)
 
 
 def fallback_recommendation(

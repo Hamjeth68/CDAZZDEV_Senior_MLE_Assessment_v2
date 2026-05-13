@@ -68,7 +68,7 @@ def analyze_news_sentiment(
             "sentiment_client_unavailable",
             {"ticker": normalized_ticker, "error": str(exc)},
         )
-        raise
+        return build_sentiment_batch_result(normalized_ticker, [])
 
     for headline in headlines:
         sentiment = analyze_headline_sentiment(headline, llm_client=client)

@@ -19,9 +19,6 @@ This repository targets:
 2. Install dependencies: `pip install -r requirements.txt`
 3. Configure local environment:
    - Copy `.env.example` to `.env`
-<<<<<<< ours
-   - Set `GROQ_API_KEY` and/or `OPENROUTER_API_KEY`
-=======
    - Set at least one provider key: `GROQ_API_KEY` **or** `OPENROUTER_API_KEY`
 
 
@@ -44,7 +41,6 @@ If Groq shows **"<email> does not belong to any organizations"** during signup:
 - If your company manages Groq access, ask your admin to invite your email to the org before retrying.
 
 If you are blocked on Groq, continue with **OpenRouter** only (the project supports either provider).
->>>>>>> theirs
 
 ## Run
 - Task 1: open and run `task1_financial/task1_equity_research.ipynb`
