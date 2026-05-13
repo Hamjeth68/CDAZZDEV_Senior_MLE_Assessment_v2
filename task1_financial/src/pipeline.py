@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
+from pydantic import ValidationError
 
 from shared.errors import DataFetchError, LLMProviderError
 from shared.finance_data import fetch_ohlcv, fetch_ticker_metadata
@@ -103,7 +104,7 @@ def run_equity_research(
 
     try:
         recommendation = generate_recommendation(equity_summary, sentiment, llm_client=llm_client)
-    except (LLMProviderError, ValueError) as exc:
+    except (ValidationError, LLMProviderError, ValueError) as exc:
         _warn(warnings, "recommendation_failed", symbol, exc)
         recommendation = fallback_recommendation(equity_summary, sentiment)
 

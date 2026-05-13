@@ -56,7 +56,12 @@ def analyze_news_sentiment(
     headlines: Iterable[NewsHeadline | str],
     llm_client: LLMClient | None = None,
 ) -> SentimentBatchResult:
-    """Analyze each headline independently and aggregate valid classifications."""
+    """Analyze each headline independently and aggregate valid classifications.
+
+    Provider setup failures are propagated so callers can record an explicit
+    pipeline warning instead of mistaking the result for genuinely empty
+    sentiment output.
+    """
     normalized_ticker = ticker.strip().upper()
     sentiments: list[NewsSentiment] = []
     try:
@@ -68,7 +73,7 @@ def analyze_news_sentiment(
             "sentiment_client_unavailable",
             {"ticker": normalized_ticker, "error": str(exc)},
         )
-        return build_sentiment_batch_result(normalized_ticker, [])
+        raise
 
     for headline in headlines:
         sentiment = analyze_headline_sentiment(headline, llm_client=client)
