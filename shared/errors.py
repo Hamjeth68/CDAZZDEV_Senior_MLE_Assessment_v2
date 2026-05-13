@@ -21,6 +21,22 @@ class LLMServiceError(AssessmentError):
     """Raised when LLM provider calls fail or return invalid responses."""
 
 
+class LLMProviderError(LLMServiceError):
+    """Raised when an LLM provider call fails."""
+
+
+class LLMValidationError(LLMProviderError):
+    """Raised when an LLM response cannot be parsed or validated."""
+
+
+class ProviderAuthenticationError(LLMProviderError):
+    """Raised when an LLM provider rejects credentials."""
+
+
+class ProviderRateLimitError(LLMProviderError):
+    """Raised when an LLM provider rate-limits a request."""
+
+
 class ToolExecutionError(AssessmentError):
     """Raised when an agent/tool action fails unexpectedly."""
 
