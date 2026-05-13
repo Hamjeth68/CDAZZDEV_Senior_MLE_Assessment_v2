@@ -1,4 +1,6 @@
 import json
+from types import SimpleNamespace
+
 import pytest
 
 from shared.config import (
@@ -8,7 +10,10 @@ from shared.config import (
     has_openrouter_api_key,
     require_api_key,
 )
+from shared.errors import LLMProviderError
+from shared.llm_client import GroqProvider
 from shared.logging_utils import _sanitize
+from shared.news import _extract_url
 from shared.schemas import LLMRecommendation, NewsSentiment
 
 
@@ -98,3 +103,24 @@ def test_sanitize_redacts_provider_specific_and_nested_values() -> None:
     assert out["headers"]["authorization"] == "***REDACTED***"
     assert out["providers"][0]["openrouter_api_key"] == "***REDACTED***"
     assert out["providers"][1]["value"] == "ok"
+
+
+def test_groq_provider_wraps_malformed_completion_shape() -> None:
+    provider = GroqProvider.__new__(GroqProvider)
+    provider.model = "test-model"
+    provider.client = SimpleNamespace(
+        chat=SimpleNamespace(
+            completions=SimpleNamespace(
+                create=lambda **_: SimpleNamespace(choices=[])
+            )
+        )
+    )
+
+    with pytest.raises(LLMProviderError, match="unexpected response shape"):
+        provider.generate_text("system", "user")
+
+
+def test_extract_url_reads_nested_yahoo_canonical_url() -> None:
+    payload = {"canonicalUrl": {"url": " https://finance.yahoo.com/news/example "}}
+
+    assert _extract_url(payload) == "https://finance.yahoo.com/news/example"

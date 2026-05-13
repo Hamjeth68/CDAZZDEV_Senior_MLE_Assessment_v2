@@ -190,9 +190,17 @@ def _first_str(payload: dict[str, Any], keys: tuple[str, ...]) -> str | None:
 
 
 def _extract_url(payload: dict[str, Any]) -> str | None:
-    direct_url = _first_str(payload, ("url", "link", "canonicalUrl"))
+    direct_url = _first_str(payload, ("url", "link"))
     if direct_url:
         return direct_url
+
+    canonical_url = payload.get("canonicalUrl")
+    if isinstance(canonical_url, str) and canonical_url.strip():
+        return canonical_url.strip()
+    if isinstance(canonical_url, dict):
+        nested_url = _first_str(canonical_url, ("url",))
+        if nested_url:
+            return nested_url
 
     click_through = payload.get("clickThroughUrl")
     if isinstance(click_through, dict):

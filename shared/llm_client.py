@@ -140,9 +140,13 @@ class GroqProvider(BaseProvider):
         except Exception as exc:  # SDK exposes several exception classes by version.
             raise _classify_provider_error(self.name, exc) from exc
 
-        usage = getattr(completion, "usage", None)
-        choice = completion.choices[0]
-        content = choice.message.content or ""
+        try:
+            usage = getattr(completion, "usage", None)
+            choice = completion.choices[0]
+            content = choice.message.content or ""
+        except (AttributeError, IndexError, TypeError) as exc:
+            raise LLMProviderError("groq returned an unexpected response shape") from exc
+
         return LLMResponse(
             content=content,
             provider=self.name,
