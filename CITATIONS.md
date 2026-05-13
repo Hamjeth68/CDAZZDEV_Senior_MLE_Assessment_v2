@@ -34,6 +34,18 @@ assessment fit were reviewed and adjusted manually while integrating the code.
   chose conservative null handling, and reviewed the tests to avoid dependence
   on live market data.
 
+### 4) Task 1 Financial AI Equity Research Assistant
+- Tool: ChatGPT/Codex
+- Date: 2026-05-13
+- Prompt intent: implement the Task 1 equity research assistant modules.
+- Used for: pipeline orchestration, per-headline JSON sentiment validation,
+  Buy/Hold/Sell recommendation validation, Markdown/HTML report rendering,
+  matplotlib chart generation, README updates, and graceful partial-failure
+  handling.
+- Human work: specified the required module boundaries, required the no financial
+  advice disclaimer, selected the shared data/LLM abstractions to reuse, and
+  reviewed the implementation against the assessment requirements.
+
 ## Human Contributions
 - Defined the assessment scope around Task 1 and Task 3 rather than building a
   generic finance app.
@@ -55,9 +67,13 @@ assessment fit were reviewed and adjusted manually while integrating the code.
 - yfinance: https://pypi.org/project/yfinance/
 - pandas: https://pandas.pydata.org/docs/
 - NumPy: https://numpy.org/doc/
+- Matplotlib: https://matplotlib.org/stable/users/index.html
 
 ## Open-Source Code
 No source code was copied directly. Implementations were written for this assessment using public API/docs references.
 
 ## Data Sources
-yfinance/Yahoo Finance market data, accessed through the `yfinance` Python package.
+yfinance/Yahoo Finance market data and company news, accessed through the
+`yfinance` Python package. DuckDuckGo search/news is used as a best-effort
+headline fallback through `duckduckgo-search`/`ddgs` when yfinance does not
+return enough headlines.
