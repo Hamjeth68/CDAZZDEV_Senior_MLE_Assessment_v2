@@ -186,7 +186,25 @@ def latest_indicator_snapshot(indicators: pd.DataFrame) -> TechnicalIndicatorSna
     if indicators.empty:
         return TechnicalIndicatorSnapshot()
 
-    row = indicators.iloc[-1]
+    snapshot_columns = [
+        "sma_50",
+        "sma_200",
+        "rsi_14",
+        "macd",
+        "macd_signal",
+        "bollinger_upper",
+        "bollinger_lower",
+        "momentum_signal",
+    ]
+    available_columns = [column for column in snapshot_columns if column in indicators.columns]
+    if not available_columns:
+        return TechnicalIndicatorSnapshot()
+
+    populated_mask = indicators[available_columns].notna().any(axis=1)
+    if not populated_mask.any():
+        return TechnicalIndicatorSnapshot()
+
+    row = indicators.loc[populated_mask].iloc[-1]
 
     def clean(value: object) -> float | None:
         if pd.isna(value):

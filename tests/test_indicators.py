@@ -75,3 +75,36 @@ def test_momentum_signal_and_latest_snapshot_null_handling() -> None:
     snapshot = latest_indicator_snapshot(pd.DataFrame([{"sma_50": np.nan, "momentum_signal": None}]))
     assert snapshot.sma_50 is None
     assert snapshot.momentum_signal is None
+
+
+def test_latest_indicator_snapshot_uses_last_populated_row() -> None:
+    indicators = pd.DataFrame(
+        [
+            {
+                "sma_50": 110.0,
+                "sma_200": 100.0,
+                "rsi_14": 60.0,
+                "macd": 2.0,
+                "macd_signal": 1.0,
+                "bollinger_upper": 125.0,
+                "bollinger_lower": 95.0,
+                "momentum_signal": "bullish",
+            },
+            {
+                "sma_50": np.nan,
+                "sma_200": np.nan,
+                "rsi_14": np.nan,
+                "macd": np.nan,
+                "macd_signal": np.nan,
+                "bollinger_upper": np.nan,
+                "bollinger_lower": np.nan,
+                "momentum_signal": None,
+            },
+        ]
+    )
+
+    snapshot = latest_indicator_snapshot(indicators)
+
+    assert snapshot.sma_50 == 110.0
+    assert snapshot.rsi_14 == 60.0
+    assert snapshot.momentum_signal == "bullish"

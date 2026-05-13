@@ -169,8 +169,8 @@ def fetch_ticker_metadata(ticker: str) -> dict[str, float | str | None]:
         "current_price": _metadata_value(
             info,
             fast_info,
-            ["currentPrice", "regularMarketPrice", "previousClose"],
-            ["last_price", "lastPrice", "regular_market_previous_close"],
+            ["currentPrice", "regularMarketPrice"],
+            ["last_price", "lastPrice"],
         ),
         "week_52_high": _metadata_value(
             info,
