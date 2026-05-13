@@ -57,7 +57,7 @@ def render_markdown_brief(
     generated_at = generated_at or datetime.utcnow()
     snapshot = equity_summary.indicator_snapshot
     top_headlines = headlines[:3]
-    chart_line = f"![Price chart]({Path(chart_path).as_posix()})" if chart_path else "_Price chart unavailable._"
+    chart_line = f"![Price chart]({Path(chart_path).name})" if chart_path else "_Price chart unavailable._"
 
     lines = [
         f"# {equity_summary.ticker} Equity Research Brief",
