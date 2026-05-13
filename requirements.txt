@@ -1,9 +1,7 @@
 python-dotenv>=1.0.1
 pydantic>=2.8.0
 pytest>=8.0.0
-<<<<<<< ours
 requests>=2.31.0
 groq>=0.4.0
-
-=======
->>>>>>> theirs
+yfinance>=0.2.40
+duckduckgo-search>=6.3.0

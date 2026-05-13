@@ -19,10 +19,8 @@ class LLMServiceError(AssessmentError):
 
 class ToolExecutionError(AssessmentError):
     """Raised when an agent/tool action fails unexpectedly."""
-<<<<<<< ours
 
 
-# LLM Provider-specific exceptions
 class LLMProviderError(AssessmentError):
     """Base exception for LLM provider errors."""
 
@@ -37,5 +35,3 @@ class ProviderAuthenticationError(LLMProviderError):
 
 class ProviderRateLimitError(LLMProviderError):
     """Raised when provider rate limit is exceeded."""
-=======
->>>>>>> theirs
