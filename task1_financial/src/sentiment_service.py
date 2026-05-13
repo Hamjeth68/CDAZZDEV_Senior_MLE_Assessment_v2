@@ -93,7 +93,12 @@ def build_sentiment_batch_result(
     if rows:
         signed_values = []
         for item in rows:
-            direction = 1.0 if item.sentiment == "positive" else -1.0 if item.sentiment == "negative" else 0.0
+            if item.sentiment == "positive":
+                direction = 1.0
+            elif item.sentiment == "negative":
+                direction = -1.0
+            else:
+                direction = 0.0
             signed_values.append(direction * item.confidence)
         score = sum(signed_values) / len(rows)
         if score > 0.15:

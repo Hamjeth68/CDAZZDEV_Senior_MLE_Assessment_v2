@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import datetime
 from html import escape
 from pathlib import Path
-from typing import Any
 
 import pandas as pd
 
@@ -58,7 +57,7 @@ def render_markdown_brief(
     generated_at = generated_at or datetime.utcnow()
     snapshot = equity_summary.indicator_snapshot
     top_headlines = headlines[:3]
-    chart_line = f"![Price chart]({Path(chart_path).as_posix()})" if chart_path else "_Price chart unavailable._"
+    chart_line = f"![Price chart]({Path(chart_path).name})" if chart_path else "_Price chart unavailable._"
 
     lines = [
         f"# {equity_summary.ticker} Equity Research Brief",
@@ -125,7 +124,7 @@ def render_html_brief(
     chart_html = (
         f'<img src="{escape(Path(chart_path).name)}" alt="{escape(equity_summary.ticker)} price chart">'
         if chart_path
-        else "<p class=\"muted\">Price chart unavailable.</p>"
+        else '<p class="muted">Price chart unavailable.</p>'
     )
     headline_items = "".join(f"<li>{escape(item.title)}</li>" for item in headlines[:3]) or "<li>No validated headlines available.</li>"
     risk_items = "".join(f"<li>{escape(risk)}</li>" for risk in recommendation.key_risks) or "<li>Risks unavailable.</li>"
@@ -259,4 +258,3 @@ def _fmt_large_number(value: float | None) -> str:
             return f"${value:,.2f}{suffix}"
         value /= 1000.0
     return f"${value:,.2f}Q"
-

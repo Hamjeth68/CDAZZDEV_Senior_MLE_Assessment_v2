@@ -46,6 +46,16 @@ assessment fit were reviewed and adjusted manually while integrating the code.
   advice disclaimer, selected the shared data/LLM abstractions to reuse, and
   reviewed the implementation against the assessment requirements.
 
+### 4) Task 3 Agentic Tools and Observability
+- Tool: ChatGPT/Codex
+- Date: 2026-05-13
+- Prompt intent: implement Task 3 tool wrappers, structured tool schemas,
+  DuckDuckGo analyst search, and JSONL observability traces.
+- Used for: Pydantic tool result contracts, append-only trace logging,
+  structured error handling, and integration with existing shared finance/news/LLM helpers.
+- Human work: selected explicit Task 3 schemas, reviewed the plan before implementation,
+  and constrained the public tool surface to the five required functions.
+
 ## Human Contributions
 - Defined the assessment scope around Task 1 and Task 3 rather than building a
   generic finance app.
@@ -68,6 +78,7 @@ assessment fit were reviewed and adjusted manually while integrating the code.
 - pandas: https://pandas.pydata.org/docs/
 - NumPy: https://numpy.org/doc/
 - Matplotlib: https://matplotlib.org/stable/users/index.html
+- duckduckgo-search: https://pypi.org/project/duckduckgo-search/
 
 ## Open-Source Code
 No source code was copied directly. Implementations were written for this assessment using public API/docs references.
@@ -77,3 +88,4 @@ yfinance/Yahoo Finance market data and company news, accessed through the
 `yfinance` Python package. DuckDuckGo search/news is used as a best-effort
 headline fallback through `duckduckgo-search`/`ddgs` when yfinance does not
 return enough headlines.
+DuckDuckGo search result snippets, accessed through the `duckduckgo-search` Python package.

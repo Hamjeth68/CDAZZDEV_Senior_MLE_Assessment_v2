@@ -15,7 +15,7 @@ from shared.indicators import add_technical_indicators, latest_indicator_snapsho
 from shared.llm_client import LLMClient
 from shared.logging_utils import get_logger, log_structured
 from shared.news import fetch_headlines
-from shared.schemas import EquitySummary, NewsHeadline, SentimentBatchResult, TechnicalIndicatorSnapshot
+from shared.schemas import EquitySummary, NewsHeadline, TechnicalIndicatorSnapshot
 
 from task1_financial.src.report_renderer import write_report_files
 from task1_financial.src.sentiment_service import analyze_news_sentiment, build_sentiment_batch_result
@@ -32,12 +32,7 @@ def run_equity_research(
     llm_client: LLMClient | None = None,
     render_reports: bool = True,
 ) -> dict[str, Any]:
-    """Run the complete equity research workflow for one ticker.
-
-    The pipeline records warnings and continues when metadata, news, sentiment,
-    recommendation, or rendering fail. Price history is the only hard dependency
-    for technical analysis, but even that failure returns a structured result.
-    """
+    """Run the complete equity research workflow for one ticker."""
     symbol = ticker.strip().upper()
     if not symbol:
         raise ValueError("ticker must be a non-empty symbol")
@@ -209,4 +204,3 @@ def _warn(warnings: list[str], event: str, ticker: str, exc: Exception) -> None:
         event,
         {"ticker": ticker, "error_type": type(exc).__name__, "error": str(exc)},
     )
-
