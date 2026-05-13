@@ -34,6 +34,13 @@ assessment fit were reviewed and adjusted manually while integrating the code.
   chose conservative null handling, and reviewed the tests to avoid dependence
   on live market data.
 
+### 4) LangGraph Multi-Agent Workflow
+- Tool: ChatGPT/Codex
+- Date: 2026-05-13
+- Prompt intent: implement Task 3 LangGraph workflow with restricted tools, structured state, critique loop, and notebook-visible tracing.
+- Used for: `AgentState` design, Agent A/Agent B orchestration, Pydantic handoff models, deterministic fallback behavior, and trace rendering.
+- Human work: reviewed the required agent boundaries, insisted on no web-search access for Agent A, required the clarification loop to complete without manual input, and verified the final report sections match the assessment brief.
+
 ## Human Contributions
 - Defined the assessment scope around Task 1 and Task 3 rather than building a
   generic finance app.
@@ -55,9 +62,11 @@ assessment fit were reviewed and adjusted manually while integrating the code.
 - yfinance: https://pypi.org/project/yfinance/
 - pandas: https://pandas.pydata.org/docs/
 - NumPy: https://numpy.org/doc/
+- LangGraph: https://langchain-ai.github.io/langgraph/
 
 ## Open-Source Code
 No source code was copied directly. Implementations were written for this assessment using public API/docs references.
 
 ## Data Sources
 yfinance/Yahoo Finance market data, accessed through the `yfinance` Python package.
+DuckDuckGo search/news results, accessed through `duckduckgo-search` or `ddgs` when available.
