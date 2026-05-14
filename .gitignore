@@ -25,6 +25,8 @@ env/
 # Outputs and local runtime files
 task1_financial/outputs/*
 !task1_financial/outputs/.gitkeep
+task2_finetuning/outputs/*
+!task2_finetuning/outputs/.gitkeep
 task3_agentic/outputs/*
 !task3_agentic/outputs/.gitkeep
 task3_agentic/cache/*
