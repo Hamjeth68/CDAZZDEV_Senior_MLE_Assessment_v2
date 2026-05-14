@@ -35,6 +35,7 @@ task3_agentic/cache/*
 Thumbs.db
 .vscode/
 .idea/
+.history/
 
 
 

@@ -1,57 +1,60 @@
-# CDAZZDEV Senior MLE Assessment (Task 1 + Task 3)
+# CDAZZDEV Senior MLE Assessment
 
-## Scope
-This repository targets:
-- **Task 1** — Financial AI equity research assistant
-- **Task 3** — Agentic financial research with memory and observability
+## Project Overview
+This repository implements two assessment tracks:
 
-## Layout
-- `shared/` — reusable config, schemas, prompts, errors, logging
-- `task1_financial/` — Task 1 implementation, notebook, outputs
-- `task3_agentic/` — Task 3 implementation, notebook, logs, cache, outputs
-- `CITATIONS.md` — AI usage and reference disclosure
-- `REFLECTION.md` — design decisions, limitations, next improvements
+- **Task 1:** Financial AI equity research assistant.
+- **Task 3:** Agentic financial research workflow with tool use, short-term memory, persistent cache, multi-agent handoff, and JSONL observability.
 
-## Setup (Python 3.11)
-1. Create a virtual environment.
-   - PowerShell: `python -m venv .venv; .\.venv\Scripts\Activate.ps1`
-   - CMD: `python -m venv .venv && .venv\Scripts\activate.bat`
-2. Install dependencies: `pip install -r requirements.txt`
-3. Configure local environment:
-   - Copy `.env.example` to `.env`
-   - Set at least one provider key: `GROQ_API_KEY` **or** `OPENROUTER_API_KEY`
+The code is organized so deterministic market-data work is separated from LLM-driven reasoning. Shared modules under `shared/` provide reusable finance data access, news retrieval, LLM provider failover, prompts, schemas, and logging.
 
+## Architecture Overview
+- `task1_financial/` fetches OHLCV data, computes indicators, retrieves headlines, runs LLM sentiment/recommendation steps, and renders Markdown/HTML/PNG outputs.
+- `task3_agentic/` runs a stateful research graph. Agent A owns quantitative price/volatility memory; Agent B owns news, sentiment, critique, and final synthesis. `src/memory.py` provides short-term follow-up answers and a persistent JSON cache keyed by `{ticker}_{YYYY-MM-DD}`.
+- `task3_agentic/logs/agent_trace.jsonl` records tool, cache load, and cache save events.
 
-## Provider requirement for assessment
-GROQ is **not mandatory** unless your assessor explicitly requires a specific provider.
-This project supports either provider, so one valid key is sufficient:
-- `GROQ_API_KEY`
-- `OPENROUTER_API_KEY`
+## Windows Setup
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+```
 
-## API keys (where to get them)
-- **Groq**: sign in at `https://console.groq.com`, then create a key at `https://console.groq.com/keys`.
-- **OpenRouter**: sign in at `https://openrouter.ai`, then create a key at `https://openrouter.ai/keys`.
+Set at least one provider key in `.env`:
 
-Set either or both in your local `.env` file (never commit populated keys).
+```powershell
+GROQ_API_KEY=...
+OPENROUTER_API_KEY=...
+```
 
-## Troubleshooting API signup errors
-If Groq shows **"<email> does not belong to any organizations"** during signup:
-- You likely used a workspace/SSO flow that expects an invited organization account.
-- Go back and create/use a **personal account** first, or use a different email that is not tied to an enterprise SSO tenant.
-- If your company manages Groq access, ask your admin to invite your email to the org before retrying.
+No populated `.env` file should be committed.
 
-If you are blocked on Groq, continue with **OpenRouter** only (the project supports either provider).
+## How To Run Notebooks
+Start Jupyter from the repository root, then run all cells:
 
-## Run
-- Task 1: open and run `task1_financial/task1_equity_research.ipynb`
-- Task 3: open and run `task3_agentic/task3_agentic_research.ipynb`
+```powershell
+jupyter notebook
+```
 
-## Submission checks
-- [ ] Notebooks executed with outputs visible
-- [ ] No credentials committed
-- [ ] `CITATIONS.md` complete
-- [ ] `REFLECTION.md` <= 600 words
-- [ ] `task3_agentic/logs/agent_trace.jsonl` generated
+- Task 1 notebook: `task1_financial/task1_equity_research.ipynb`
+- Task 3 notebook: `task3_agentic/task3_agentic_research.ipynb`
 
-## Walkthrough link
-Add your unlisted video URL before submission.
+## Outputs
+- Task 1 reports: `task1_financial/outputs/`
+- Task 3 cache files: `task3_agentic/cache/{TICKER}_{YYYY-MM-DD}.json`
+- Task 3 trace file: `task3_agentic/logs/agent_trace.jsonl`
+
+## Submission Checklist
+- [x] Task 1 attempted.
+- [x] Task 3 attempted.
+- [x] Notebooks include visible outputs.
+- [x] Task 3 short-term memory follow-up implemented.
+- [x] Task 3 persistent JSON cache implemented.
+- [x] Cache load/save events logged.
+- [x] `agent_trace.jsonl` generated.
+- [x] `CITATIONS.md` and `REFLECTION.md` finalized.
+- [x] No secrets committed.
+
+## Video Walkthrough
+Placeholder: add unlisted walkthrough URL here before final submission.

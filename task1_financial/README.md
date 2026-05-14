@@ -1,53 +1,41 @@
 # Task 1: Financial AI Equity Research Assistant
 
-## Objective
-Task 1 implements an end-to-end equity research assistant for a single public ticker. It fetches market data, computes technical indicators, retrieves recent news, asks an LLM for structured headline sentiment, asks an LLM for a Buy/Hold/Sell recommendation, and renders a concise Markdown/HTML brief with a matplotlib price chart.
+## Task Objective
+Task 1 builds an end-to-end equity research assistant for a single public ticker. It fetches market data, computes technical indicators, retrieves recent headlines, asks an LLM for structured sentiment and Buy/Hold/Sell reasoning, and renders a concise report.
 
-This project is for educational assessment use only. It is not financial advice, investment advice, or a recommendation to buy or sell securities.
+This project is for educational assessment use only. It is not financial advice.
+
+## Rubric Mapping
+| Requirement | Implementation |
+| --- | --- |
+| Market data retrieval | `shared/finance_data.py` uses yfinance for OHLCV and metadata. |
+| Technical indicators | `shared/indicators.py` computes indicators with pandas/numpy. |
+| LLM sentiment | `src/sentiment_service.py` validates per-headline JSON sentiment. |
+| Recommendation reasoning | `src/signal_reasoner.py` validates Buy/Hold/Sell output and falls back safely. |
+| Report output | `src/report_renderer.py` writes Markdown, HTML, and PNG chart artifacts. |
+| Graceful failure | `src/pipeline.py` records warnings and continues where possible. |
+
+## Files Implemented
+- `src/pipeline.py`
+- `src/sentiment_service.py`
+- `src/signal_reasoner.py`
+- `src/report_renderer.py`
+- `task1_equity_research.ipynb`
 
 ## How To Run
-Install the root requirements from the repository root:
+Install requirements from the repository root and set `GROQ_API_KEY` or `OPENROUTER_API_KEY` in `.env`.
 
-```bash
-pip install -r requirements.txt
-```
-
-Set at least one LLM provider key in `.env`:
-
-```bash
-GROQ_API_KEY=...
-OPENROUTER_API_KEY=...
-```
-
-Run the pipeline from the repository root:
-
-```bash
+```powershell
 python -c "from task1_financial.src.pipeline import run_equity_research; print(run_equity_research('MSFT'))"
 ```
 
-Or open `task1_equity_research.ipynb`, choose a ticker, and execute all cells.
-
-## Architecture
-- `src/pipeline.py` orchestrates ticker input, OHLCV retrieval, indicator computation, news retrieval, summary construction, LLM calls, report rendering, and graceful partial-failure handling.
-- `src/sentiment_service.py` sends each headline to the LLM independently, requires strict JSON, validates with Pydantic, logs validation/provider failures, and aggregates valid rows.
-- `src/signal_reasoner.py` sends the technical snapshot plus aggregate sentiment to the LLM, requires a validated Buy/Hold/Sell response, and falls back to a conservative validated Hold-oriented rule when the LLM is unavailable.
-- `src/report_renderer.py` creates a one-page Markdown brief, styled HTML brief, and PNG price chart.
-- `shared/` provides reusable schemas, prompts, yfinance data access, indicators, news retrieval, logging, and LLM provider failover.
+Or open `task1_equity_research.ipynb` and run all cells.
 
 ## Expected Outputs
-By default, successful runs write artifacts under `task1_financial/outputs/`:
+Successful runs write:
 
-- `{TICKER}_equity_brief.md`
-- `{TICKER}_equity_brief.html`
-- `{TICKER}_price_chart.png`
+- `task1_financial/outputs/{TICKER}_equity_brief.md`
+- `task1_financial/outputs/{TICKER}_equity_brief.html`
+- `task1_financial/outputs/{TICKER}_price_chart.png`
 
-The returned pipeline dictionary includes:
-
-- `equity_summary`: company snapshot plus the latest technical indicator snapshot.
-- `sentiment`: validated headline sentiment rows and aggregate counts/score.
-- `recommendation`: validated Buy/Hold/Sell recommendation with confidence, rationale, risks, and evidence.
-- `headlines`: retrieved news headlines used by the sentiment step.
-- `warnings`: non-fatal data, LLM, or rendering issues encountered during the run.
-
-## Notes
-External data and LLM services can be unavailable, rate-limited, or incomplete. The pipeline records partial failures in `warnings` and continues wherever possible so the notebook can still show which parts succeeded.
+The notebook displays the equity summary, sentiment table, recommendation, warnings, and generated artifact paths.

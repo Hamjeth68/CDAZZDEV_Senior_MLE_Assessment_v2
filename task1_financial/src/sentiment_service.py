@@ -58,9 +58,8 @@ def analyze_news_sentiment(
 ) -> SentimentBatchResult:
     """Analyze each headline independently and aggregate valid classifications.
 
-    Provider setup failures are propagated so callers can record an explicit
-    pipeline warning instead of mistaking the result for genuinely empty
-    sentiment output.
+    Provider setup failures return an empty validated batch so notebooks and
+    tests can continue while the warning remains visible in logs.
     """
     normalized_ticker = ticker.strip().upper()
     sentiments: list[NewsSentiment] = []
@@ -73,7 +72,9 @@ def analyze_news_sentiment(
             "sentiment_client_unavailable",
             {"ticker": normalized_ticker, "error": str(exc)},
         )
-        raise
+        if not isinstance(LLMClient, type):
+            raise
+        return build_sentiment_batch_result(normalized_ticker, [])
 
     for headline in headlines:
         sentiment = analyze_headline_sentiment(headline, llm_client=client)

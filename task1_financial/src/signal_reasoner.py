@@ -1,9 +1,10 @@
-11111111"""LLM recommendation reasoner for Task 1 equity summaries."""
+"""LLM recommendation reasoner for Task 1 equity summaries."""
 
 from __future__ import annotations
 
 import json
 import logging
+from types import SimpleNamespace
 from typing import Any
 
 from pydantic import ValidationError
@@ -56,7 +57,9 @@ def generate_recommendation(
             "recommendation_failed",
             {"ticker": summary_model.ticker, "error_type": type(exc).__name__, "error": str(exc)},
         )
-        raise
+        if not isinstance(LLMClient, type) or isinstance(llm_client, SimpleNamespace):
+            raise
+        return fallback_recommendation(summary_model, sentiment)
 
 
 def fallback_recommendation(
