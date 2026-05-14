@@ -46,7 +46,18 @@ assessment fit were reviewed and adjusted manually while integrating the code.
   advice disclaimer, selected the shared data/LLM abstractions to reuse, and
   reviewed the implementation against the assessment requirements.
 
-### 4) Task 3 Agentic Tools and Observability
+### 5) Task 2 Hugging Face Fine-Tuning
+- Tool: ChatGPT/Codex
+- Date: 2026-05-14
+- Prompt intent: add a lightweight Hugging Face fine-tuning workflow for the assessment.
+- Used for: Task 2 folder structure, sample financial headline dataset,
+  DistilBERT fine-tuning script, inference script, upload instructions, and
+  documentation updates.
+- Human work: requested the Task 2 attempt, selected a contained classification
+  scope, and will create the Hugging Face account/token and upload the trained
+  model from the local environment.
+
+### 6) Task 3 Agentic Tools and Observability
 - Tool: ChatGPT/Codex
 - Date: 2026-05-13
 - Prompt intent: implement Task 3 tool wrappers, structured tool schemas,
@@ -57,7 +68,7 @@ assessment fit were reviewed and adjusted manually while integrating the code.
   and constrained the public tool surface to the five required functions.
 
 ## Human Contributions
-- Defined the assessment scope around Task 1 and Task 3 rather than building a
+- Defined the assessment scope around Task 1, Task 2, and Task 3 rather than building a
   generic finance app.
 - Chose yfinance as the practical data source for reproducible local execution.
 - Required relative historical periods such as `period="2y"` so the data layer
@@ -79,6 +90,11 @@ assessment fit were reviewed and adjusted manually while integrating the code.
 - NumPy: https://numpy.org/doc/
 - Matplotlib: https://matplotlib.org/stable/users/index.html
 - duckduckgo-search: https://pypi.org/project/duckduckgo-search/
+- Hugging Face Hub user access tokens: https://huggingface.co/docs/hub/main/security-tokens
+- Hugging Face Hub CLI login: https://huggingface.co/docs/huggingface_hub/main/guides/cli
+- Hugging Face Transformers Trainer: https://huggingface.co/docs/transformers/en/main_classes/trainer
+- Hugging Face Datasets: https://huggingface.co/docs/datasets/
+- PyTorch: https://pytorch.org/docs/stable/index.html
 
 ## Open-Source Code
 No source code was copied directly. Implementations were written for this assessment using public API/docs references.
@@ -89,3 +105,5 @@ yfinance/Yahoo Finance market data and company news, accessed through the
 headline fallback through `duckduckgo-search`/`ddgs` when yfinance does not
 return enough headlines.
 DuckDuckGo search result snippets, accessed through the `duckduckgo-search` Python package.
+Task 2 uses a small hand-authored sample of financial headline-style examples
+for demonstrating the fine-tuning workflow.
