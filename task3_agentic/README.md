@@ -41,3 +41,9 @@ dir task3_agentic\outputs
 
 ## Failure Behavior
 Tool failures are captured in typed `ToolResult` envelopes instead of crashing the whole workflow. The final report includes data gaps and limitations when market data, news, search, or LLM calls are unavailable.
+
+If neither `ddgs` nor `duckduckgo-search` is installed, `web_search` returns a successful empty snippet payload instead of failing the agent run. Install root requirements again to enable live search:
+
+```powershell
+pip install -r requirements.txt
+```
