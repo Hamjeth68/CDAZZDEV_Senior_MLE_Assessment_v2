@@ -93,6 +93,7 @@ assessment fit were reviewed and adjusted manually while integrating the code.
 - NumPy: https://numpy.org/doc/
 - Matplotlib: https://matplotlib.org/stable/users/index.html
 - duckduckgo-search: https://pypi.org/project/duckduckgo-search/
+- DDGS: https://pypi.org/project/ddgs/
 - Hugging Face Hub user access tokens: https://huggingface.co/docs/hub/main/security-tokens
 - Hugging Face Hub CLI login: https://huggingface.co/docs/huggingface_hub/main/guides/cli
 - Hugging Face Transformers Trainer: https://huggingface.co/docs/transformers/en/main_classes/trainer
@@ -107,6 +108,7 @@ yfinance/Yahoo Finance market data and company news, accessed through the
 `yfinance` Python package. DuckDuckGo search/news is used as a best-effort
 headline fallback through `duckduckgo-search`/`ddgs` when yfinance does not
 return enough headlines.
-DuckDuckGo search result snippets, accessed through the `duckduckgo-search` Python package.
+DuckDuckGo search result snippets, accessed through the `ddgs` package with
+`duckduckgo-search` retained as a compatibility fallback.
 Task 2 uses a small hand-authored sample of financial headline-style examples
 for demonstrating the fine-tuning workflow.

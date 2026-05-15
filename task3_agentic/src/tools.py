@@ -142,10 +142,12 @@ def web_search(query: str) -> ToolResult:
         clean_query = query.strip()
         if not clean_query:
             raise ValueError("query must be non-empty")
-        try:
-            from duckduckgo_search import DDGS
-        except ImportError:
-            from ddgs import DDGS
+        DDGS = _load_ddgs()
+        if DDGS is None:
+            payload = WebSearchPayload(query=clean_query, found=0, snippets=[])
+            result = ToolResult(status="success", tool_name="web_search", data=payload.model_dump(mode="json"))
+            _trace("web_search", inputs, result, start)
+            return result
         search_query = f"{clean_query} analyst commentary stock market investment thesis"
         with DDGS() as ddgs:
             raw_results = list(ddgs.text(search_query, max_results=8))
@@ -157,6 +159,20 @@ def web_search(query: str) -> ToolResult:
         result = _error_result("web_search", exc)
     _trace("web_search", inputs, result, start)
     return result
+
+
+def _load_ddgs() -> Any | None:
+    try:
+        from ddgs import DDGS
+
+        return DDGS
+    except ImportError:
+        try:
+            from duckduckgo_search import DDGS
+
+            return DDGS
+        except ImportError:
+            return None
 
 
 def _normalize_ticker(ticker: str) -> str:

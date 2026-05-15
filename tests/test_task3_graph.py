@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 from task3_agentic.src import agents, graph
+from task3_agentic.src import tools
 from task3_agentic.src.schemas import ToolResult
 
 
@@ -52,3 +53,12 @@ def test_run_two_agent_pipeline_returns_final_report(monkeypatch, tmp_path) -> N
     assert result["ticker"] == "MSFT"
     assert "Agentic Financial Research Report: MSFT" in result["final_report"]
     assert (tmp_path / "MSFT_agentic_report.md").exists()
+
+
+def test_web_search_returns_empty_payload_when_search_package_missing(monkeypatch) -> None:
+    monkeypatch.setattr(tools, "_load_ddgs", lambda: None)
+
+    result = tools.web_search("MSFT outlook")
+
+    assert result.status == "success"
+    assert result.data == {"query": "MSFT outlook", "found": 0, "snippets": []}
