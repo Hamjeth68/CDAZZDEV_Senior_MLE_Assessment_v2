@@ -108,10 +108,6 @@ https://www.dropbox.com/scl/fo/t16kt9xp9fhab6z0rl5aw/AD40Apmfkl27CURrKQfUFaM?rlk
 
 
 
-![alt text](image.png)
-
-
-
 
 
 
