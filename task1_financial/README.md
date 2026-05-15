@@ -12,12 +12,14 @@ Install the root requirements from the repository root:
 pip install -r requirements.txt
 ```
 
-Set at least one LLM provider key in `.env`:
+Set at least one LLM provider key in `.env`. Either provider is enough:
 
 ```bash
 GROQ_API_KEY=...
 OPENROUTER_API_KEY=...
 ```
+
+Missing optional provider keys are skipped quietly. If no LLM provider is configured, the pipeline records explicit `sentiment_failed` and `recommendation_failed` warnings and falls back to validated empty sentiment / conservative recommendation outputs where possible.
 
 Run the pipeline from the repository root:
 
@@ -29,8 +31,8 @@ Or open `task1_equity_research.ipynb`, choose a ticker, and execute all cells.
 
 ## Architecture
 - `src/pipeline.py` orchestrates ticker input, OHLCV retrieval, indicator computation, news retrieval, summary construction, LLM calls, report rendering, and graceful partial-failure handling.
-- `src/sentiment_service.py` sends each headline to the LLM independently, requires strict JSON, validates with Pydantic, logs validation/provider failures, and aggregates valid rows.
-- `src/signal_reasoner.py` sends the technical snapshot plus aggregate sentiment to the LLM, requires a validated Buy/Hold/Sell response, and falls back to a conservative validated Hold-oriented rule when the LLM is unavailable.
+- `src/sentiment_service.py` sends each headline to the LLM independently, requires strict JSON, validates with Pydantic, logs validation/provider failures, and propagates provider setup failures so the pipeline can surface warnings.
+- `src/signal_reasoner.py` sends the technical snapshot plus aggregate sentiment to the LLM, requires a validated Buy/Hold/Sell response, and propagates provider/validation failures so the pipeline can record the fallback path.
 - `src/report_renderer.py` creates a one-page Markdown brief, styled HTML brief, and PNG price chart.
 - `shared/` provides reusable schemas, prompts, yfinance data access, indicators, news retrieval, logging, and LLM provider failover.
 

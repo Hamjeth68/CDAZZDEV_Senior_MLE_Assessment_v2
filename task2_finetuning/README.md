@@ -67,3 +67,10 @@ Then train and push:
 
 ```powershell
 python -m task2_finetuning.src.train_financial_sentiment --epochs 1 --push-to-hub --hub-model-id YOUR_USERNAME/financial-sentiment-distilbert
+```
+
+Replace `YOUR_USERNAME` with your Hugging Face username. The submitted model URL will look like:
+
+```text
+https://huggingface.co/YOUR_USERNAME/financial-sentiment-distilbert
+```

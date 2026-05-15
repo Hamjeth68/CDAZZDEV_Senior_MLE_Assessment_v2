@@ -50,6 +50,12 @@ If you are blocked on Groq, continue with **OpenRouter** only. The project suppo
 - Task 2: follow `task2_finetuning/README.md`
 - Task 3: open and run `task3_agentic/task3_agentic_research.ipynb`
 
+Task 3 can also be run directly from PowerShell:
+
+```powershell
+python -c "from task3_agentic.src.graph import run_two_agent_pipeline; print(run_two_agent_pipeline('MSFT')['final_report'])"
+```
+
 ## Task 2 Quick Start
 Task 2 uses extra Hugging Face dependencies that are isolated from the base Task 1/Task 3 environment.
 
@@ -96,116 +102,3 @@ Add your unlisted video URL before submission.
 
 
 
-
-
-
-
-
-```powershell
-cd C:\Users\user\Desktop\CDAZZDEV_Senior_MLE_Assessment_v2
-```
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
-
-```powershell
-copy .env.example .env
-notepad .env
-```
-
-Set at least one key in `.env`:
-
-```text
-GROQ_API_KEY=your_key_here
-OPENROUTER_API_KEY=your_key_here
-```
-
-Show repo structure:
-
-```powershell
-tree /F
-```
-
-Run tests:
-
-```powershell
-pytest
-```
-
-Run Task 1 equity research pipeline:
-
-```powershell
-python -c "from task1_financial.src.pipeline import run_equity_research; import json; result = run_equity_research('MSFT'); print(json.dumps(result, indent=2)[:4000])"
-```
-
-
-```powershell
-dir task1_financial\outputs
-```
-
-Install Task 2 dependencies:
-
-```powershell
-pip install -r task2_finetuning\requirements-task2.txt
-```
-
-Train Task 2 sentiment classifier:
-
-```powershell
-python -m task2_finetuning.src.train_financial_sentiment --epochs 1
-```
-
-Run Task 2 inference:
-
-```powershell
-python -m task2_finetuning.src.predict_sentiment --text "Shares rose after the company beat earnings expectations."
-```
-
-Show Task 2 outputs:
-
-```powershell
-dir task2_finetuning\outputs\financial-sentiment-model
-type task2_finetuning\outputs\financial-sentiment-model\eval_metrics.json
-```
-
-Optional Hugging Face upload:
-
-```powershell
-hf auth login
-python -m task2_finetuning.src.train_financial_sentiment --epochs 1 --push-to-hub --hub-model-id YOUR_USERNAME/financial-sentiment-distilbert
-```
-
-Open notebooks for visible execution:
-
-```powershell
-jupyter notebook
-```
-
-
-```text
-task1_financial/task1_equity_research.ipynb
-task3_agentic/task3_agentic_research.ipynb
-```
-
-Show Task 3 traces/cache after notebook run:
-
-```powershell
-dir task3_agentic\logs
-type task3_agentic\logs\agent_trace.jsonl
-dir task3_agentic\cache
-dir task3_agentic\outputs
-```
-
-
-```powershell
-type docs\ARCHITECTURE.md
-```
-
-
-```powershell
-git status --short
-pytest
-```
