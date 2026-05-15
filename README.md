@@ -103,8 +103,7 @@ https://huggingface.co/YOUR_USERNAME/financial-sentiment-distilbert
 - [ ] `task3_agentic/logs/agent_trace.jsonl` generated
 
 ## Walkthrough Link
-Add your unlisted video URL before submission.
-
+https://www.dropbox.com/scl/fo/t16kt9xp9fhab6z0rl5aw/AD40Apmfkl27CURrKQfUFaM?rlkey=6s48g1t4f39yk8asjynvof337&st=fvs4yun7&dl=0
 
 
 
