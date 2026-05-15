@@ -110,12 +110,12 @@ class GroqProvider(BaseProvider):
     name = "groq"
 
     def __init__(self, api_key: str | None = None, model: str = GROQ_DEFAULT_MODEL):
+        self.api_key = api_key or require_api_key("groq")
         try:
             from groq import Groq
         except ImportError as exc:  # pragma: no cover - depends on optional install
             raise LLMProviderError("Groq SDK is not installed") from exc
 
-        self.api_key = api_key or require_api_key("groq")
         self.model = model
         self.client = Groq(api_key=self.api_key)
 
@@ -334,6 +334,9 @@ def _build_provider(provider_cls: type[BaseProvider], model: str) -> BaseProvide
     try:
         return provider_cls(model=model)
     except Exception as exc:
+        if _is_missing_provider_key(exc, provider_cls.name):
+            logger.debug("%s provider skipped because its API key is not configured", provider_cls.name)
+            return None
         log_structured(
             logger,
             logging.WARNING,
@@ -341,6 +344,10 @@ def _build_provider(provider_cls: type[BaseProvider], model: str) -> BaseProvide
             {"provider": provider_cls.name, "error_type": type(exc).__name__, "error": str(exc)},
         )
         return None
+
+
+def _is_missing_provider_key(exc: Exception, provider: str) -> bool:
+    return isinstance(exc, ValueError) and str(exc) == f"Missing API key for provider: {provider}"
 
 
 def _classify_provider_error(provider: str, exc: Exception) -> LLMProviderError:

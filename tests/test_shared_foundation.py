@@ -11,7 +11,7 @@ from shared.config import (
     require_api_key,
 )
 from shared.errors import LLMProviderError
-from shared.llm_client import GroqProvider
+from shared.llm_client import LLMClient, GroqProvider
 from shared.logging_utils import _sanitize
 from shared.news import _extract_url
 from shared.schemas import LLMRecommendation, NewsSentiment
@@ -118,6 +118,22 @@ def test_groq_provider_wraps_malformed_completion_shape() -> None:
 
     with pytest.raises(LLMProviderError, match="unexpected response shape"):
         provider.generate_text("system", "user")
+
+
+def test_llm_client_skips_missing_optional_primary_key_without_warning(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    events = []
+
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    monkeypatch.setenv("OPENROUTER_API_KEY", "openrouter-key")
+    monkeypatch.setattr("shared.llm_client.log_structured", lambda *args: events.append(args))
+
+    client = LLMClient()
+
+    assert client.primary_available is False
+    assert client.fallback_available is True
+    assert events == []
 
 
 def test_extract_url_reads_nested_yahoo_canonical_url() -> None:
