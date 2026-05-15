@@ -21,6 +21,9 @@ def save_price_chart(prices: pd.DataFrame, ticker: str, output_dir: str | Path) 
     if prices is None or prices.empty or "close" not in prices.columns:
         return None
 
+    import matplotlib
+
+    matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     output_path = Path(output_dir)
