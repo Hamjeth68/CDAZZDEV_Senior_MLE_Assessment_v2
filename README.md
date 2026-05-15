@@ -50,6 +50,22 @@ If you are blocked on Groq, continue with **OpenRouter** only. The project suppo
 - Task 2: follow `task2_finetuning/README.md`
 - Task 3: open and run `task3_agentic/task3_agentic_research.ipynb`
 
+## React Client
+You can run the local React client instead of printing outputs in the terminal:
+
+```powershell
+python app_server.py --port 8000
+```
+
+Then open `http://127.0.0.1:8000`.
+
+The client exposes:
+- Task 1 equity brief generation with chart/report artifact links.
+- Task 3 two-agent research reports with cache toggle and raw JSON.
+- Task 2 local sentiment prediction when the fine-tuned model and Task 2 dependencies are installed.
+
+The UI is served from `client/` and uses CDN React/Babel, so no npm setup is required.
+
 Task 3 can also be run directly from PowerShell:
 
 ```powershell
@@ -87,12 +103,7 @@ https://huggingface.co/YOUR_USERNAME/financial-sentiment-distilbert
 - [ ] `task3_agentic/logs/agent_trace.jsonl` generated
 
 ## Walkthrough Link
-Add your unlisted video URL before submission.
-
-
-
-
-
+https://www.dropbox.com/scl/fo/t16kt9xp9fhab6z0rl5aw/AD40Apmfkl27CURrKQfUFaM?rlkey=6s48g1t4f39yk8asjynvof337&st=fvs4yun7&dl=0
 
 
 
