@@ -95,10 +95,26 @@ Use this page to showcase:
 
 #### GitHub Actions deployment
 A ready-to-use GitHub Actions workflow is included in `.github/workflows/deploy-pages.yml`.
-Once the repo is on GitHub, enable Actions and allow the workflow to deploy the `client/` folder to the `gh-pages` branch.
+This workflow uploads the `client/` folder as a Pages artifact and deploys it automatically to `gh-pages`.
 
 #### Local deployment script
 A small local deployment helper is included at `deploy_github_pages.ps1` for users with the GitHub CLI.
+
+### Docker deployment
+Build and run the project locally in Docker:
+
+```powershell
+docker build -t equity-research-assistant .
+docker run --rm -p 8000:8000 --env GROQ_API_KEY=your_key --env OPENROUTER_API_KEY=your_key equity-research-assistant
+```
+
+Or use Docker Compose:
+
+```powershell
+docker compose up --build
+```
+
+This container includes the Python backend, serves the client UI from the app server, and can run on any Docker host.
 
 ### Replit / Render
 - Replit: create a Python Repl, upload this repository, and use `python app_server.py` as the run command.

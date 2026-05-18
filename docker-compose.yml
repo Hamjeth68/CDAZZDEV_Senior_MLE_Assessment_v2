@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY
+      - OPENROUTER_API_KEY
+    volumes:
+      - ./:/usr/src/app
+    command: ["python", "app_server.py", "--host", "0.0.0.0", "--port", "8000"]
