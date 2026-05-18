@@ -1,7 +1,7 @@
-"""Local web UI server for the assessment workflows.
+"""Local web UI server for the Equity Research Assistant portfolio.
 
-This dependency-light server exposes the existing Python pipelines as JSON APIs
-and serves the React client from ``client/``.
+This dependency-light server exposes the existing Python workflows as JSON APIs
+and serves the client dashboard from ``client/``.
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ TASK2_CACHE_DIR = ROOT / "task2_finetuning" / "outputs" / "hf_cache"
 
 
 class AppRequestHandler(BaseHTTPRequestHandler):
-    server_version = "AssessmentClient/1.0"
+    server_version = "EquityResearchAssistant/1.0"
 
     def do_GET(self) -> None:  # noqa: N802 - BaseHTTPRequestHandler API
         parsed = urlparse(self.path)

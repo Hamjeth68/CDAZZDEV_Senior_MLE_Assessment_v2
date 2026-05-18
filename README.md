@@ -1,10 +1,21 @@
-# CDAZZDEV Senior MLE Assessment (Task 1 + Task 2 + Task 3)
+# Equity Research Assistant — Portfolio Project
 
 ## Scope
-This repository targets:
-- **Task 1** - Financial AI equity research assistant
-- **Task 2** - Hugging Face fine-tuned financial sentiment classifier
-- **Task 3** - Agentic financial research with memory and observability
+This repository contains a polished portfolio project for equity research automation and AI-powered financial insights.
+- **Task 1** - Interactive equity research and market signal briefing
+- **Task 2** - Fine-tuned financial sentiment classification
+- **Task 3** - Agentic research orchestration with memory and traceability
+
+## Product positioning
+The Equity Research Assistant is designed as a market-facing analytics prototype for investment analysts and fintech teams.
+It combines structured pricing signals, news sentiment, and agentic report synthesis into an accessible dashboard.
+
+### Selling points
+- AI-assisted equity research that turns ticker data and headlines into actionable insights.
+- Quick start sample tickers, recent query recall, and exportable research summaries for real demo readiness.
+- A transparent pipeline with report outputs, charts, and raw JSON for validation.
+- Provider-agnostic LLM integration plus local sentiment inference from a fine-tuned model.
+- Suitable for portfolio presentation because it demonstrates backend engineering, ML, and frontend product design.
 
 ## Layout
 - `shared/` - reusable config, schemas, prompts, errors, logging
@@ -51,7 +62,7 @@ If you are blocked on Groq, continue with **OpenRouter** only. The project suppo
 - Task 3: open and run `task3_agentic/task3_agentic_research.ipynb`
 
 ## React Client
-You can run the local React client instead of printing outputs in the terminal:
+You can run the local portfolio dashboard instead of printing outputs in the terminal:
 
 ```powershell
 python app_server.py --port 8000
@@ -61,10 +72,43 @@ Then open `http://127.0.0.1:8000`.
 
 The client exposes:
 - Task 1 equity brief generation with chart/report artifact links.
-- Task 3 two-agent research reports with cache toggle and raw JSON.
-- Task 2 local sentiment prediction when the fine-tuned model and Task 2 dependencies are installed.
+- Task 3 agentic research reports with cache toggle and raw JSON.
+- Task 2 local sentiment prediction using the fine-tuned classifier.
 
 The UI is served from `client/` and uses CDN React/Babel, so no npm setup is required.
+
+> Note: The full interactive backend requires a local Python runtime and provider credentials. For zero-cost public visibility, publish the client as a static portfolio landing page using GitHub Pages and run the backend locally for the full experience.
+
+## Marketing landing page
+A polished marketing landing page has been added at `client/landing.html`.
+Use this page to showcase:
+- the product value proposition,
+- core customer benefits,
+- the real-world use cases,
+- and how to launch the interactive dashboard.
+
+## Zero-cost deployment
+### GitHub Pages
+1. Publish the static files from `client/`.
+2. Set `landing.html` as the marketing page and keep `index.html` as the interactive demo.
+3. If you want the landing page to load at the root, rename `landing.html` to `index.html` on the published branch or copy its contents to the published root index.
+
+#### GitHub Actions deployment
+A ready-to-use GitHub Actions workflow is included in `.github/workflows/deploy-pages.yml`.
+Once the repo is on GitHub, enable Actions and allow the workflow to deploy the `client/` folder to the `gh-pages` branch.
+
+#### Local deployment script
+A small local deployment helper is included at `deploy_github_pages.ps1` for users with the GitHub CLI.
+
+### Replit / Render
+- Replit: create a Python Repl, upload this repository, and use `python app_server.py` as the run command.
+- Render: create a free Web Service, select Python, and point it to this repository with `python app_server.py` as the start command.
+- Configure `GROQ_API_KEY` or `OPENROUTER_API_KEY` in the environment settings for LLM workflows.
+
+### Recommended GitHub Pages + local demo flow
+- Host the static landing page publicly on GitHub Pages.
+- Show the project as a portfolio item with a live marketing page.
+- Mention in the landing page that the full interactive backend is available locally or via a free Python host.
 
 Task 3 can also be run directly from PowerShell:
 
